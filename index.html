@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pokémon Music Mixer</title>
+        <link rel="stylesheet" href="css/grid.css">
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+
+    <body>
+        <header>
+            <h1 class="hidden">Pokémon Music Mixer</h1>
+            <div class="grid-con">
+                <div class="col-span-3 m-col-span-2 l-col-span-3 xl-col-span-3">
+                    <img src="images/logo.webp" alt="Pokémon Music Mixer Logo" class="logo">
+                </div>
+                <div class="col-span-1 m-col-span-10 l-col-span-9 xl-col-span-9">
+                    <nav>
+                        <h2 class="hidden">navigation bar</h2>
+                        <ul class="nav-list">
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#instruction-modal-target">Instruction</a></li>
+                            <li><a href="#sound">Sound Dex</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <main>
+            <section class="spacer" id="home">
+                <h2 class="hidden">Pokémon Music Mixer</h2>
+                <div class="grid-con">
+                    <div class="col-span-4 m-col-span-12 l-col-span-12 xl-col-span-12">
+                        <h2>About</h2>
+                        <p>Welcome to the **Pokémon Music Mixer**! This is a fan-made web application designed for Pokémon
+                            enthusiasts and aspiring music producers alike.</p>
+                        <p>Drag and drop your favorite Pokémon sounds from the **Sound Dex** into the **Sequence Slots** to
+                            compose unique battle anthems, route music, or just fun jingles.</p>
+                        <p>Created with HTML, CSS, and JavaScript using the Web Audio API, this project aims to provide a
+                            simple yet engaging way to experiment with sound sequencing in a familiar and beloved world.</p>
+                        <p>Got a great sequence? Challenge a friend to a sound battle!</p>
+                    </div>
+                </div>
+            </section>
+            <section class="spacer instruction lightbox-modal" id="instruction-modal-target">
+                <h2 class="hidden">Pokémon Music Mixer</h2>
+                <div class="grid-con">
+                    <div class="col-span-4 m-col-span-12 l-col-span-12 xl-col-span-12">
+                        <div class="modal-content">
+                            <a href="#" class="close-btn">&times;</a>
+                            <h2>How to Use the Pokémon Music Mixer</h2>
+                            <ol>
+                                <li>**Drag & Drop:** From the "Sound Dex" above, drag any Pokémon sound into one of the six
+                                    "Sequence Slots."</li>
+                                <li>**Fill All Slots:** You need to fill all 6 slots to activate the playback controls.</li>
+                                <li>**Play Battle!:** Click the "Play Battle!" button to start your custom Pokémon groove!
+                                </li>
+                                <li>**Controls:**
+                                    <ul>
+                                        <li>`▶ Play Battle!`: Starts playback from the current position.</li>
+                                        <li>`■ Stop Battle!`: Stops playback and resets the current position.</li>
+                                        <li>`⏮ Rewind`: Jumps to the previous sound in the sequence.</li>
+                                        <li>`⏭ Fast Forward`: Jumps to the next sound in the sequence.</li>
+                                        <li>`Clear Sequence`: Empties all slots and stops playback.</li>
+                                    </ul>
+                                </li>
+                                <li>**Master Volume:** Adjust the slider at the bottom to control the overall volume.</li>
+                                <li>**Remove Sounds:** Click the 'x' button on any filled slot to remove that sound.</li>
+                                <li>**Enjoy:** Create your own epic Pokémon sound battles and memorable tunes!</li>
+                            </ol>
+                            <p class="small-text">Note: Ensure your browser allows audio playback; you may need to click the
+                                play button once to enable the audio context.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="spacer sound-library" id="sound">
+                <h2 class="hidden">Pokémon Sound</h2>
+                <div class="grid-con">
+                    <div class="col-span-4 m-col-span-6 l-col-span-6 xl-col-span-6 library-items">
+                        <button class="draggable-sound" data-sound="pikachu_cry">Pikachu Cry</button>
+                        <button class="draggable-sound" data-sound="pokeball_open">Pokéball Open</button>
+                        <button class="draggable-sound" data-sound="trainer_battle">Trainer Battle</button>
+                        <button class="draggable-sound" data-sound="healing_sound">Healing Sound</button>
+                        <button class="draggable-sound" data-sound="evolution_jingle">Evolution Jingle</button>
+                        <button class="draggable-sound" data-sound="route_music">Route Music</button>
+                    </div>
+                    <div class="col-span-4 m-col-span-6 l-col-span-6 xl-col-span-6 sequence-area">
+                        <h2 class="hidden">Your Trainer's Sequence (Drag & Drop Here)</h2>
+                        <div class="sequence-slots" id="sequenceSlots">
+                            <div class="slot" data-slot-id="0">Sequence Slot 1</div>
+                            <div class="slot" data-slot-id="1">Sequence Slot 2</div>
+                            <div class="slot" data-slot-id="2">Sequence Slot 3</div>
+                            <div class="slot" data-slot-id="3">Sequence Slot 4</div>
+                            <div class="slot" data-slot-id="4">Sequence Slot 5</div>
+                            <div class="slot" data-slot-id="5">Sequence Slot 6</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-con">
+                    <div class="col-span-4 m-col-span-12 l-col-span-12 xl-col-span-12 playbuttons">
+                        <button id="rewindSequenceBtn">⏮</button>
+                        <button id="playSequenceBtn">▶</button>
+                        <button id="stopSequenceBtn">■</button>
+                        <button id="fastForwardSequenceBtn">⏭</button>
+                        <button id="resetSequenceBtn">Clear</button>
+                    </div>
+                    <div class="col-span-4 m-col-span-12 l-col-span-12 xl-col-span-12 master-volume-control">
+                        <label for="masterVolume">Volume</label>
+                        <input type="range" id="masterVolume" min="0" max="1" value="0.8" step="0.01">
+                    </div>
+                </div>
+
+            </section>
+        </main>
+        <footer>
+            <div class="grid-con main-footer">
+                <div class="col-span-4 m-col-span-12 l-col-span-12 xl-col-span-12">
+                    <p>&copy; 2025 Pokémon Music Mixer. A fan project. Not affiliated with Nintendo/Game Freak/Creatures
+                        Inc.</p>
+                    <p>Crafted with passion from London, Ontario, Canada.</p>
+                    <p>Gotta Catch 'Em All!</p>
+                </div>
+            </div>
+        </footer>
+        
+        <script src="js/main.js"></script>
+    </body>
+
+</html>

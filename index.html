@@ -79,35 +79,67 @@
             <section class="spacer sound-library" id="sound">
                 <h2 class="hidden">Pokémon Sound</h2>
                 <div class="grid-con">
-                    <div class="col-span-4 m-col-span-6 l-col-span-6 xl-col-span-6 library-items">
-                        <button class="draggable-sound" data-sound="pikachu_cry">Pikachu Cry</button>
-                        <button class="draggable-sound" data-sound="pokeball_open">Pokéball Open</button>
-                        <button class="draggable-sound" data-sound="trainer_battle">Trainer Battle</button>
-                        <button class="draggable-sound" data-sound="healing_sound">Healing Sound</button>
-                        <button class="draggable-sound" data-sound="evolution_jingle">Evolution Jingle</button>
-                        <button class="draggable-sound" data-sound="route_music">Route Music</button>
-                    </div>
+
                     <div class="col-span-4 m-col-span-6 l-col-span-6 xl-col-span-6 sequence-area">
-                        <h2 class="hidden">Your Trainer's Sequence (Drag & Drop Here)</h2>
+                        <h2>Your Trainer's Sequence (Drag & Drop Here)</h2>
                         <div class="sequence-slots" id="sequenceSlots">
-                            <div class="slot" data-slot-id="0">Sequence Slot 1</div>
-                            <div class="slot" data-slot-id="1">Sequence Slot 2</div>
-                            <div class="slot" data-slot-id="2">Sequence Slot 3</div>
-                            <div class="slot" data-slot-id="3">Sequence Slot 4</div>
-                            <div class="slot" data-slot-id="4">Sequence Slot 5</div>
-                            <div class="slot" data-slot-id="5">Sequence Slot 6</div>
+                            <div class="slot" data-slot-id="0"></div>
+                            <div class="slot" data-slot-id="1"></div>
+                            <div class="slot" data-slot-id="2"></div>
+                            <div class="slot" data-slot-id="3"></div>
+                            <div class="slot" data-slot-id="4"></div>
+                            <div class="slot" data-slot-id="5"></div>
                         </div>
                     </div>
+
+                    <div class="col-span-4 m-col-span-6 l-col-span-6 xl-col-span-6 sound-dex">
+                        <h2>Gotta Catch 'Em All!</h2>
+                        <div class="library-items" id="soundDex">
+                        
+                        <button class="draggable-sound" data-instrument="voicy_Pikachu" draggable="true">
+                            <img src="images/Pikachu_ball.svg" alt="Pikachu" id="pikachu-icon">
+                        </button>
+                        <button class="draggable-sound" data-instrument="voicy_Bulbassaur" draggable="true">
+                            <img src="images/Bulbassaur_ball.svg" alt="Bulbassaur" id="bulbassaur-icon">
+                        </button>
+                        <button class="draggable-sound" data-instrument="voicy_Charmander" draggable="true">
+                            <img src="images/Charmander_ball.svg" alt="Charmander" id="charmander-icon">
+                        </button>
+                        <button class="draggable-sound" data-instrument="Voicy_Kirby_Theme" draggable="true">
+                            <img src="images/Theme.svg" alt="Theme" id="theme-icon">
+                        </button>
+                        <button class="draggable-sound" data-instrument="Voicy_Squirtle" draggable="true">
+                            <img src="images/Squirtle_ball.svg" alt="Squirtle" id="squirtle-icon">
+                        </button>
+                        <button class="draggable-sound" data-instrument="Voicy_Totodile_Cry" draggable="true">
+                            <img src="images/Totodile_ball.svg" alt="Totodile" id="totodile-icon">
+                        </button>
+                        </div>
+                    </div>
+                    
                 </div>
                 <div class="grid-con">
-                    <div class="col-span-4 m-col-span-12 l-col-span-12 xl-col-span-12 playbuttons">
-                        <button id="rewindSequenceBtn">⏮</button>
-                        <button id="playSequenceBtn">▶</button>
-                        <button id="stopSequenceBtn">■</button>
-                        <button id="fastForwardSequenceBtn">⏭</button>
-                        <button id="resetSequenceBtn">Clear</button>
+                    <div class="col-span-4 m-col-span-12 l-col-span-6 xl-col-span-6 playbuttons">
+                        <button id="rewindSequenceBtn" class="btnstyle">
+                            <img src="images/ff_rw.png" alt="rewind">
+                        </button>
+                        <button id="playSequenceBtn" class="btnstyle">
+                            <img src="images/play.png" alt="play">
+                        </button>
+                        <button id="pauseSequenceBtn" class="btnstyle">
+                            <img src="images/pause.png" alt="pause">
+                        </button>
+                        <button id="stopSequenceBtn" class="btnstyle">
+                            <img src="images/stop.png" alt="stop">
+                        </button>
+                        <button id="fastForwardSequenceBtn" class="btnstyle">
+                            <img src="images/ff_rw.png" alt="fast forward">
+                        </button>
+                        <button id="resetSequenceBtn" class="btnstyle">
+                            <img src="images/reset.png" alt="clear">
+                        </button>
                     </div>
-                    <div class="col-span-4 m-col-span-12 l-col-span-12 xl-col-span-12 master-volume-control">
+                    <div class="col-span-4 m-col-span-12 l-col-span-6 xl-col-span-6 master-volume-control">
                         <label for="masterVolume">Volume</label>
                         <input type="range" id="masterVolume" min="0" max="1" value="0.8" step="0.01">
                     </div>

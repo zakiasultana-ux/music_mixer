@@ -1,33 +1,63 @@
-console.log("welcome to the world of javascript");
+console.log("Music Mixer Edit - Main JS Loaded");
 
-//variables
+// varibles 
 
-const labels = document.querySelectorAll(".draggable-sound");
-const targetZones = document.querySelectorAll(".slot");
-const resetBtn = document.querySelector("#resetSequenceBtn");
-const playBtn = document.querySelector("#playSequenceBtn");
-const pauseBtn = document.querySelector("#pauseSequenceBtn");
-const stopBtn = document.querySelector("#stopSequenceBtn");
-const rewindBtn = document.querySelector("#rewindSequenceBtn");
-const ffBtn = document.querySelector("#fastForwardSequenceBtn");
-const labelBox = document.querySelector("#soundDex");
-const volumeSlider = document.querySelector("#masterVolume");
+const dragbtn = document.querySelectorAll(".dragbtn");
+const targetZones = document.querySelectorAll(".target-zone");
+const dragbox = document.querySelector("#soundDex");
+const resetBtn = document.querySelector("#reset-btn");
+const playbtn = document.querySelector('#play-btn');
+const pausebtn = document.querySelector('#pause-btn');
+const rewindbtn = document.querySelector('#rewind-btn');
+const stopbtn = document.querySelector('#stop-btn');
+const forwardbtn = document.querySelector('#forward-btn');
+const vol = document.querySelector('#volumeControl');
+const audioel = document.querySelectorAll('audio');
 
 let currentDraggedElement = null;
-let activeAudio = [];// Array to keep track of active audio elements
-let currentSoundIndex = 0;
-let isPlayingSequence = false;
-let globalVolume = 0.8; // default starting volume
+let activeAudio = [];
+let volumeLevel = 0.8;
 
-// functions 
+// functions
 
 function dragStart() {
     console.log("Drag Start Called");
     currentDraggedElement = this;
+    console.log(currentDraggedElement);
 }
 
 function dragOver(event) {
+    console.log("Drag Over Called");
     event.preventDefault();
+}
+
+function drop(event) {
+    console.log("Drop Called");
+    event.preventDefault();
+    this.classList.remove("highlight");
+    if (this.children.length > 0) {
+        console.log("This drop zone already has a label.");
+        return;
+    }
+    this.appendChild(currentDraggedElement);
+    currentDraggedElement = null;
+}
+
+function resetGame() {
+    console.log("Reset Game Called");
+
+    targetZones.forEach(zone => {
+        while (zone.firstChild) {
+            zone.removeChild(zone.firstChild);
+        }
+    });
+    dragbtn.forEach(btn => {
+        document.body.appendChild(btn);
+        if (btn) {
+            dragbox.appendChild(btn);
+        }
+    });
+    currentDraggedElement = null;
 }
 
 function dragEnter(event) {
@@ -39,196 +69,104 @@ function dragLeave() {
     this.classList.remove("highlight");
 }
 
-function drop(event) {
-    event.preventDefault();
-    this.classList.remove("highlight");
+function playAudio() { 
+    console.log("Play Audio Called");
+    playbtn.style.display = "none";
+    pausebtn.style.display = "block";
 
-    if (this.children.length > 0) {
-        console.log("This drop zone already has a label.");
-        return;
-    }
-    this.appendChild(currentDraggedElement);
-    currentDraggedElement = null;
-}
-
-function resetGame() {
-    console.log("Reset Game Called");
-    
-    targetZones.forEach(zone => {
-        while (zone.firstChild) {
-            zone.removeChild(zone.firstChild);
-        }
-    });
-
-    labels.forEach(label => {
-        if (label) {
-            labelBox.appendChild(label);
-        }
-    });
-
-    currentDraggedElement = null;
-    stopSequence();
-}
-
-function playSequence() {
-    console.log("Play Sequence Called");
-
-    // Toggle buttons
-    playBtn.style.display = "none";
-    pauseBtn.style.display = "inline-block";
-
-    // Reset before starting
     activeAudio = [];
-    currentSoundIndex = 0;
-    isPlayingSequence = true;
 
-    // Loop through each drop zone
     targetZones.forEach(zone => {
-        const label = zone.querySelector(".draggable-sound");
-        if (label) {
-            const instrument = label.dataset.instrument;
-            const audio = new Audio(`audio/${instrument}.mp3`);
-            audio.volume = globalVolume;
-            activeAudio.push(audio);
+        const btn = zone.querySelector(".dragbtn");
+        if (btn) {
+            const soundId = btn.dataset.sound;
+            activeAudio.push(soundId);
+            console.log(activeAudio);
+            const audio = document.querySelector(`audio[data-sound="${soundId}"]`);
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play();
+            }
         }
     });
 
-    // Start sequence if any sounds available
-    if (activeAudio.length > 0) {
-        playNextSound();
-    }
 }
 
-
-function pauseSequence() {
-    console.log("Pause Sequence Called");
-
-    if (!isPlayingSequence) return;
-
-    const currentAudio = activeAudio[currentSoundIndex];
-    if (currentAudio && !currentAudio.paused) {
-        currentAudio.pause();
-
-        // Toggle buttons
-        pauseBtn.style.display = "none";
-        playBtn.style.display = "inline-block";
-    }
+function pauseAudio() { 
+    console.log("Pause Audio Called");
+    activeAudio.forEach(soundId => {
+        const audio = document.querySelector(`audio[data-sound="${soundId}"]`);
+        if (audio) audio.pause();
+    }); 
+    playbtn.style.display = "block";
+    pausebtn.style.display = "none";
 }
 
-function playNextSound() {
-    if (!isPlayingSequence || currentSoundIndex >= activeAudio.length) {
-        isPlayingSequence = false;
-        return;
-    }
-
-    const currentAudio = activeAudio[currentSoundIndex];
-    currentAudio.volume = globalVolume; // Ensure volume is set
-    currentAudio.play();
-
-    // When finished, play next
-    currentAudio.onended = () => {
-        currentSoundIndex++;
-        playNextSound();
-    };
-}
-
-function stopSequence() {
-    console.log("Stop Sequence Called");
-
-    activeAudio.forEach(audio => {
-        audio.pause();
-        audio.currentTime = 0;
+function stopAudio() {
+    console.log("Stop Audio Called");
+    activeAudio.forEach(soundId => {
+        const audio = document.querySelector(`audio[data-sound="${soundId}"]`);
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
+        }
     });
-
-    activeAudio = []; // Clear after stopping
-    currentSoundIndex = 0;
-    isPlayingSequence = false;
-
-    playBtn.style.display = "inline-block";
-    pauseBtn.style.display = "none";
+    playbtn.style.display = "block";
+    pausebtn.style.display = "none";
 }
 
-function fastForwardSequence() {
-    console.log("Fast Forward Called");
-
-    if (!isPlayingSequence) return;
-
-    const currentAudio = activeAudio[currentSoundIndex];
-    if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-    }
-
-    currentSoundIndex++;
-    playNextSound();
+function rewindAudio() { 
+    console.log("Rewind Audio Called");
+     activeAudio.forEach(soundId => {
+        const audio = document.querySelector(`audio[data-sound="${soundId}"]`);
+        if (audio) {
+            audio.currentTime = 0;
+            audio.play();
+        }
+    }); 
 }
 
-function rewindSequence() {
-    console.log("Rewind Called");
-
-    previousAudio.volume = globalVolume;
-
-    if (!isPlayingSequence || currentSoundIndex <= 0) {
-        console.log("No previous sound to rewind to.");
-        return;
-    }
-
-    // Stop current sound
-    const currentAudio = activeAudio[currentSoundIndex];
-    if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-    }
-
-    // Step back one index
-    currentSoundIndex--;
-
-    // Play the previous one again
-    const previousAudio = activeAudio[currentSoundIndex];
-    if (previousAudio) {
-        previousAudio.volume = globalVolume; // Ensure volume is set
-        previousAudio.play();
-        previousAudio.onended = () => {
-            currentSoundIndex++;
-            playNextSound();
-        };
-    }
-}
-
-function volumecontrol() {
-    console.log("Volume Control Called");
-    globalVolume = parseFloat(volumeSlider.value);
-    console.log("Volume set to:", globalVolume);
-
-    // Update volume of any currently playing sounds
-    activeAudio.forEach(audio => {
-        audio.volume = globalVolume;
+function forwardAudio() {
+    console.log("Forward Audio Called");
+    activeAudio.forEach(soundId => {
+        const audio = document.querySelector(`audio[data-sound="${soundId}"]`);
+        if (audio) {
+            audio.currentTime += 5;
+            if (audio.currentTime >= audio.duration) {
+                audio.currentTime = 0;
+            }
+        }
     });
 }
 
-//Event listeners
+function setVolume() {
+    console.log("Set Volume Called");
+    volumeLevel = (this.value/100); 
+    activeAudio.forEach(soundId => {
+        const audio = document.querySelector(`audio[data-sound="${soundId}"]`);
+        if (audio) {
+            audio.volume = volumeLevel;
+        }
+    });
+}
 
-labels.forEach(label => {
-    label.addEventListener("dragstart", dragStart);
+// Event Listeners
+
+dragbtn.forEach(btn => {
+    btn.addEventListener("dragstart", dragStart);
 });
 
 targetZones.forEach(target => {
     target.addEventListener("dragover", dragOver);
+    target.addEventListener("drop", drop);
     target.addEventListener("dragenter", dragEnter);
     target.addEventListener("dragleave", dragLeave);
-    target.addEventListener("drop", drop);
 });
 
 resetBtn.addEventListener("click", resetGame);
-
-playBtn.addEventListener("click", playSequence);
-
-stopBtn.addEventListener("click", stopSequence);
-
-ffBtn.addEventListener("click", fastForwardSequence);
-
-rewindBtn.addEventListener("click", rewindSequence);
-
-volumeSlider.addEventListener("input", volumecontrol);
-
-pauseBtn.addEventListener("click", pauseSequence);
+playbtn.addEventListener('click', playAudio);
+stopbtn.addEventListener('click', stopAudio);
+rewindbtn.addEventListener('click', rewindAudio);
+pausebtn.addEventListener('click', pauseAudio);
+forwardbtn.addEventListener('click', forwardAudio);
+vol.addEventListener('change', setVolume);
